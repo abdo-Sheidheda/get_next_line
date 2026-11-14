@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 15:28:28 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/12 15:42:35 by cheadhead        ###   ########.fr       */
+/*   Updated: 2026/11/14 11:08:26 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*ft_strchr(const char *data_readed, int c)
 void    *to_be_freed(char **stash, char *buffer, char *line)
 {
     free(*stash);
-    free(buffer);
     free(line);
     *stash = NULL;
     return (NULL);
@@ -61,8 +60,7 @@ char	*ft_strjoin(char *static_buff, char *data_readed)
 		return (NULL);
 	res = malloc(ft_strlen(static_buff) + ft_strlen(data_readed) + 1);
 	if (!res)
-		return (to_be_freed(&
-            static_buff, data_readed, NULL));
+		return (to_be_freed(&static_buff, data_readed, NULL));
 	i = 0;
 	while (static_buff && static_buff[i])
 	{

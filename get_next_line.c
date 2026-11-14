@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 22:41:56 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/12 15:44:14 by cheadhead        ###   ########.fr       */
+/*   Updated: 2026/11/14 11:48:04 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,64 +17,97 @@ char    *ft_save_befor_newline(char *data_readed)
     size_t  save_len;
     char    *res;
     char    *temp;
+    size_t  i;
 
     temp = ft_strchr(data_readed, '\n');
-    printf("%s\n", temp);
+    if (!temp)
+        return  (NULL);
     save_len = ft_strlen(data_readed) - ft_strlen(temp) + 1;
-    printf("%ld\n", save_len);
     res = malloc((save_len + 1) * sizeof(char));
     if (!res)
-        return (to_be_freed(NULL, data_readed, res)); 
-    res[save_len] = '\0';
-    save_len--;
-    while (data_readed[save_len])
+        return (to_be_freed(NULL, data_readed, res));
+    i = 0;
+    while (data_readed[i] && data_readed[i] != '\n')
     {
-        res[save_len] = data_readed[save_len];
-        save_len--;
+        res[i] = data_readed[i];
+        i++;
     }
+    res[i++] = '\n';
+    res[i] = '\0';
     return (res);
 }
+
+char    *ft_to_read(int fd, char *data)
+{
+    char    *buffer;
+    char    *temp;
+    ssize_t  read_byte;
+
+    buffer = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
+        if (!buffer)
+            return (to_be_freed(&data, NULL, NULL));
+    read_byte = 1;
+    while (read_byte > 0)
+    {
+        read_byte = read(fd, buffer, BUFFER_SIZE);
+        if (read_byte <= 0)
+            return (to_be_freed(&data, buffer, NULL));
+        if (read_byte == 0)
+            break;
+        buffer[read_byte] = '\0';
+        temp = ft_strjoin(data, buffer);
+        if (!temp)
+            return (to_be_freed(&data, buffer, NULL));
+        data = temp;
+        if (ft_strchr(data, '\0') != NULL)
+            break;
+    }
+    free(buffer);
+    return (data);
+}
+
+
+
 
 char *get_next_line(int fd)
 {
     static char *stash;
-    ssize_t byte_readed;
-    char    *temp;
-    char    *buffer;
-    char    *line;
+    char        *line;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
+    if (fd < 0 ||  fd >= MAX_FD ||BUFFER_SIZE <= 0)
         return (NULL);
-    buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!buffer)
-        return (NULL);
-    while (ft_strchr(stash, '\n') == NULL)
+    stash = ft_to_read(fd, stash);
+    if (!stash || !*stash)
+        return (to_be_freed(&stash, NULL, NULL));
+    if (ft_strchr(stash, '\n') == NULL)
     {
-        byte_readed = read(fd, buffer, BUFFER_SIZE);
-        if (byte_readed == -1)
-            return(to_be_freed(&stash, buffer, NULL));
-        else if (byte_readed == 0) // end of file
-            break ;
-        buffer[byte_readed] = '\0';
-        temp = ft_strjoin(stash, buffer);
-        if (!temp)
-            return (to_be_freed(&stash, buffer, temp));
-        free(stash);
-        stash = temp;
+        line = stash;
+        stash = NULL;
+    }   
+    else
+    {
+        line = ft_save_befor_newline(stash);
+        if (!line)
+            return (NULL);
+        stash = ft_save_after_newline(stash);
     }
-    free(buffer);
-    if (!stash || stash[0] =='\0')
-        return (NULL);
-    line = ft_save_befor_newline(stash);
-    stash = ft_save_after_newline(stash);
     return (line);
 }
 
 int main()
 {
+
     int fd = open("file.txt", O_RDONLY);
     char *res = get_next_line(fd);
-    printf("%s\n", res);
-
+    printf("%s", res);
+    
+    char *res1 = get_next_line(fd);
+    printf("%s", res1);
+    
+    char *res2 = get_next_line(fd);
+    printf("%s", res2);
+    
+    char *res3 = get_next_line(fd);
+    printf("%s", res3);
     return (0);
 }
