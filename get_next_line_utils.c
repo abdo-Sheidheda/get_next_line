@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 15:28:28 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/14 11:08:26 by abed-dyb         ###   ########.fr       */
+/*   Updated: 2026/11/14 15:54:02 by cheadhead        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_strchr(const char *data_readed, int c)
 	return (NULL);
 }
 
-void    *to_be_freed(char **stash, char *buffer, char *line)
+void    *to_be_freed(char **stash, char *line)
 {
     free(*stash);
     free(line);
@@ -60,7 +60,7 @@ char	*ft_strjoin(char *static_buff, char *data_readed)
 		return (NULL);
 	res = malloc(ft_strlen(static_buff) + ft_strlen(data_readed) + 1);
 	if (!res)
-		return (to_be_freed(&static_buff, data_readed, NULL));
+		return (NULL);
 	i = 0;
 	while (static_buff && static_buff[i])
 	{
@@ -83,13 +83,13 @@ char    *ft_save_after_newline(char *data_readed)
 
     j = 1;
     if (!data_readed)
-        return (to_be_freed(NULL, data_readed, NULL));
+        return (to_be_freed(&data_readed, NULL));
     temp = ft_strchr(data_readed, '\n');
     if (!temp || !temp[j])
-        return (to_be_freed(&data_readed, temp, NULL));
+        return (to_be_freed(&data_readed, NULL));
     res = malloc(((ft_strlen(temp) - 1) + 1) * sizeof(char));
     if (!res)
-        return (to_be_freed(&data_readed, res, NULL));
+        return (to_be_freed(&data_readed, res));
     i = 0;
     while (temp[j])
     {
@@ -98,5 +98,6 @@ char    *ft_save_after_newline(char *data_readed)
         j++;
     }
     res[i] = '\0';
+	to_be_freed(&data_readed, NULL);
     return (res);
 }
