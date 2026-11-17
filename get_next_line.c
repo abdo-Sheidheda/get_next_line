@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 22:41:56 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/14 17:03:17 by cheadhead        ###   ########.fr       */
+/*   Updated: 2026/11/17 15:49:03 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ char    *ft_to_read(int fd, char *data)
     ssize_t  read_byte;
 
     buffer = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
-        if (!buffer)
-            return (to_be_freed(&data, NULL));
+    if (!buffer)
+        return (to_be_freed(&data, NULL));
     read_byte = 1;
     while (read_byte > 0 || ft_strchr(buffer, '\n') == NULL)
     {
@@ -75,7 +75,7 @@ char *get_next_line(int fd)
     static char *stash;
     char        *line;
 
-    if (fd < 0 ||  fd >= MAX_FD ||BUFFER_SIZE <= 0)
+    if (fd < 0 ||  fd >= 1024 ||BUFFER_SIZE <= 0)
         return (NULL);
     stash = ft_to_read(fd, stash);
     if (!stash || !*stash)
@@ -104,6 +104,6 @@ char *get_next_line(int fd)
 //     char *res1 = get_next_line(fd);
 //     printf("%s", res1);
     
-//     char *res2 = get_next_line(fd);
-//     printf("%s", res2);
+//     // char *res2 = get_next_line(fd);
+//     // printf("%s", res2);
 // }

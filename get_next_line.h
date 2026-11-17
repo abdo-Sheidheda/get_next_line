@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 15:33:20 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/14 16:02:29 by cheadhead        ###   ########.fr       */
+/*   Updated: 2026/11/16 18:25:11 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1
 #endif
-
-#define MAX_FD 1024
 
 // main one :
 char *get_next_line(int fd);
