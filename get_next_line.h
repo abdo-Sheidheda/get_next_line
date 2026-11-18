@@ -3,35 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cheadhead <cheadhead@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 15:33:20 by cheadhead         #+#    #+#             */
-/*   Updated: 2026/11/16 18:25:11 by abed-dyb         ###   ########.fr       */
+/*   Updated: 2026/11/18 12:22:11 by cheadhead        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <unistd.h>
+# include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 42
 #endif
 
-// main one :
-char *get_next_line(int fd);
+#define FD_MAX  1024
 
-// helpers :
-size_t	ft_strlen(const char *str);
-char	*ft_strchr(const char *data_readed, int c);
-char	*ft_strjoin(char *static_buff, char *data_readed);
-char    *ft_save_after_newline(char *data_readed);
-void    *to_be_freed(char **stash, char *line);
+
+// get_next_line
+size_t	ft_newline_len(char *stash);
+char	*ft_save_line(char  *stash);
+char	*ft_to_read(int fd, char *stash);
+char	*get_next_line(int fd);
+
+
+// get_next_line_utils
+size_t	ft_strlen(char *data);
+char	*ft_find_newline(char *data);
+void	*ft_to_free(char **stash, char *buffer);
+char	*ft_strjoin(char *stash, char *buffer);
+char	*ft_leftover(char   *stash);
 
 #endif
