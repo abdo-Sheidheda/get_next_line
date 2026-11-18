@@ -6,11 +6,11 @@
 /*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 10:24:23 by abed-dyb          #+#    #+#             */
-/*   Updated: 2026/11/17 15:33:54 by abed-dyb         ###   ########.fr       */
+/*   Updated: 2026/11/17 17:59:14 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include " get_next_line_bonus.h"
+#include "get_next_line_bonus.h"
 
 size_t  ft_strlen(char *data)
 {
@@ -55,18 +55,19 @@ char    *ft_strjoin(char *stash, char *buffer)
     size_t  j;
     size_t  total_len;
     
-    if (!stash)
-        return (buffer);
     total_len = ft_strlen(stash) + ft_strlen(buffer);
     res = malloc((total_len + 1) * sizeof(char));
     if (!res)
         return (ft_to_free(&stash, NULL));
     i = 0;
     j = 0;
-    while (stash[i])
+    if (stash != NULL)
     {
-        res[i] = stash[i];
-        i++;
+        while (stash[i])
+        {
+            res[i] = stash[i];
+            i++;
+        }
     }
     while (buffer[j])
         res[i++] = buffer[j++];
@@ -89,8 +90,8 @@ char    *ft_leftover(char   *stash)
         return (ft_to_free(&stash, NULL));
     i = 0;
     j = 1;
-    while (stash[j])
-        res[i++] = stash[j++];
+    while (temp[j])
+        res[i++] = temp[j++];
     res[i] = '\0';
     free(stash);
     return (res);

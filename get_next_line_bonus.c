@@ -6,11 +6,11 @@
 /*   By: abed-dyb <abed-dyb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 10:24:32 by abed-dyb          #+#    #+#             */
-/*   Updated: 2026/11/17 15:55:45 by abed-dyb         ###   ########.fr       */
+/*   Updated: 2026/11/17 17:59:17 by abed-dyb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include " get_next_line_bonus.h"
+#include "get_next_line_bonus.h"
 
 size_t  ft_newline_len(char *stash)
 {
@@ -45,10 +45,10 @@ char    *ft_save_line(char  *stash)
 
 char    *ft_to_read(int fd, char *stash)
 {
-    char    *temp;
     char    *buffer;
-    ssize_t  read_byte;
+    char    *temp;
 
+    ssize_t  read_byte;
     buffer = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
     if (!buffer)
         return (ft_to_free(&stash, NULL));
@@ -65,7 +65,7 @@ char    *ft_to_read(int fd, char *stash)
             return (ft_to_free(&stash, buffer));
         free(stash);
         stash = temp;
-        if (ft_find_newline(buffer) != NULL)
+        if (ft_find_newline(stash) != NULL)
             break ;
     }
     free(buffer);
@@ -93,15 +93,21 @@ char    *get_next_line_bonus(int fd)
     return (line);
 }
 
-#include <fcntl.h>
+// #include <fcntl.h>
 
-int main()
-{
-    int fd1 = open("file.txt", O_RDONLY);
-    char *res = get_next_line_bonus(fd1);
-    printf("%s", res);
+// int main()
+// {
+//     int fd1 = open("file.txt", O_RDONLY);
+//     char *res = get_next_line_bonus(fd1);
+//     printf("%s", res);
     
-    int fd2 = open("file1.txt", O_RDONLY);
-    char *res2 = get_next_line_bonus(fd2);
-    printf("%s", res2);
-}
+//     int fd2 = open("file1.txt", O_RDONLY);
+//     char *res2 = get_next_line_bonus(fd2);
+//     printf("%s", res2);
+    
+//     char *res3 = get_next_line_bonus(fd1);
+//     printf("%s", res3);
+    
+//     char *res4 = get_next_line_bonus(fd2);
+//     printf("%s", res4);
+// }
